@@ -86,10 +86,16 @@ def play_game():
 if __name__ == '__main__':
     # freeze_support()
 
+    excecutor = concurrent.futures.ThreadPoolExecutor(max_workers=16)
+    for i in range(30):
+        result = excecutor.submit(play_game).result()
+        if result:
+            print(f"We found one under {limit} deals in {result} iterations")
+            break
     # Use a concurrent.futures.ProcessPoolExecutor to run the function on multiple cores
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        for i in range(30):
-            result = executor.submit(play_game).result()
-            if result:
-                print(f"We found one under {limit} deals in {result} iterations")
-                break
+    # with concurrent.futures.ProcessPoolExecutor() as executor:
+    #     for i in range(30):
+    #         result = executor.submit(play_game).result()
+    #         if result:
+    #             print(f"We found one under {limit} deals in {result} iterations")
+    #             break
